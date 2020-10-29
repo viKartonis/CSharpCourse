@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage", "BookStorage\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage.Tests", "BookStorage.Tests\BookStorage.Tests.csproj", "{0D627762-6773-41EE-A016-79C865899A07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0D627762-6773-41EE-A016-79C865899A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D627762-6773-41EE-A016-79C865899A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D627762-6773-41EE-A016-79C865899A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

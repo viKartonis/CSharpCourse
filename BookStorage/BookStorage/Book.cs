@@ -15,7 +15,7 @@ namespace BookStorage
     }
     public class Book
     {
-        private Queue<decimal> _coasts = new Queue<decimal>();
+        private Stack<decimal> _coasts = new Stack<decimal>();
         
         public Guid BookId { get; }
         public string BookName { get; }
@@ -30,7 +30,7 @@ namespace BookStorage
         {
             BookId = bookId;
             BookName = bookName;
-            _coasts.Enqueue(price);
+            _coasts.Push(price);
             Genre = genre;
             Author = author;
             SupplyData = supplyData;
@@ -38,7 +38,10 @@ namespace BookStorage
         
         public void ApplyDiscount(decimal discount)
         {
-            _coasts.Enqueue(_coasts.Peek() * (100m - discount));
+            if (discount != 0 && discount <= 100)
+            {
+                _coasts.Push(_coasts.Peek() * (100m - discount)/100);
+            }
         }
         
     }

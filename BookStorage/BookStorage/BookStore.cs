@@ -7,7 +7,7 @@ namespace BookStorage
 {
     public class BookStore
     {
-        private List<Book> _books;
+        private List<Book> _books = new List<Book>();
         private int _storeCapacity;
         private int _currentBooksCount;
         private double _discount;
@@ -16,6 +16,7 @@ namespace BookStorage
         private decimal _minimumBookCountPercent;
         private decimal _countMonthNotSoldBooksPercent;
 
+        public IReadOnlyList<Book> Books => _books;
         public decimal SupplyPercent { get => _supplyPercent; set => _supplyPercent = value / 100m;  }
         public decimal MinimumBookCountPercent { get => _minimumBookCountPercent; 
             set => _minimumBookCountPercent = value / 100m;  }
