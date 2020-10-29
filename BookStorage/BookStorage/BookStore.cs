@@ -22,8 +22,14 @@ namespace BookStorage
             set => _minimumBookCountPercent = value / 100m;  }
         public decimal CountMonthNotSoldBooksPercent { get => _countMonthNotSoldBooksPercent; 
             set => _countMonthNotSoldBooksPercent = value / 100m;  }
-        public BookStore()
+        public BookStore(decimal money, decimal supplyPercent, decimal countMonthNotSoldBooksPercent, 
+            decimal minimumBookCountPercent, int storeCapacity)
         {
+            Money = money;
+            SupplyPercent = supplyPercent;
+            CountMonthNotSoldBooksPercent = countMonthNotSoldBooksPercent;
+            MinimumBookCountPercent = minimumBookCountPercent;
+            _storeCapacity = storeCapacity;
         }
         
         private void AddBook(Book book)
@@ -48,23 +54,23 @@ namespace BookStorage
             _books.Remove(book);
         }
 
-        public void ApplyDiscount(decimal discount, Genre genre)
+        public void ApplyDiscount(decimal discount, Genre genre, DateTime dateTime)
         {
             foreach (var book in _books)
             {
-                if (book.Genre == genre && !book.IsNew)
+                if (book.Genre == genre && !book.IsNew(dateTime))
                 {
                     book.ApplyDiscount(discount);
                 }
             }
         }
 
-        private int countMonthNotSoldBooks()
+        private int CountMonthNotSoldBooks(DateTime dateTime)
         {
             var count = 0;
             foreach (var book in _books)
             {
-                if (!book.IsNew)
+                if (!book.IsNew(dateTime))
                 {
                     count++;
                 }
@@ -72,10 +78,10 @@ namespace BookStorage
 
             return count;
         }
-        public void BooksOrdering(DateTime date, List<Book> books)
+        public void BooksOrdering(DateTime dateTime, List<Book> books)
         {
-            if (_currentBooksCount == _storeCapacity * _minimumBookCountPercent ||
-                countMonthNotSoldBooks() == _storeCapacity * _countMonthNotSoldBooksPercent)
+            if (_currentBooksCount <= _storeCapacity * MinimumBookCountPercent ||
+                CountMonthNotSoldBooks(dateTime) >= _storeCapacity * CountMonthNotSoldBooksPercent)
             {
                 AddBooksInStore(books);
             }

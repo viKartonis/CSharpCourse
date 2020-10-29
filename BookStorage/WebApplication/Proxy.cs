@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace WebApplication
 {
-    public class Proxy
+    public class Proxy : IProxy
     {
         private readonly HttpClient _httpClient;
 
@@ -11,10 +15,13 @@ namespace WebApplication
             _httpClient = httpClient;
         }
 
-//        public async Task<T> getData()
-  //      {
-    //        var response
-      //  }
+        public async Task<List<BookResponse>> GetBooksFromRemoteServer(int bookCount)
+        {
+            var result = await _httpClient.GetAsync(
+                $"https://getbooksrestapi.azurewebsites.net/api/books/{bookCount}");
+            var resultString = await result.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<BookResponse>>(resultString);
+        }
         
     }
 }

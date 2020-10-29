@@ -23,7 +23,11 @@ namespace BookStorage
         public decimal Price => _coasts.Peek();
         public string Author { get; }
         public DateTime SupplyData { get; }
-        public bool IsNew{get => (DateTime.Now.Month - SupplyData.Month) < 1;}
+
+        public bool IsNew(DateTime dateTime)
+        {
+           return (dateTime.Month - SupplyData.Month) < 1;
+        }
  
         public Book(Guid bookId, string bookName, decimal price, Genre genre, string author, 
             DateTime supplyData)

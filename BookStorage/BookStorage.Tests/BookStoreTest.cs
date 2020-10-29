@@ -7,38 +7,59 @@ namespace BookStorage.Tests
 {
     public class BookStoreTest
     {
+        private BookStore _bookStore; 
+        private List<Book> _books;
+        private List<decimal> _prices;
+        
+        private void InitBookStore(int storeCapacity)
+        {
+            _bookStore = new BookStore(10000, 10, 75,
+                10, storeCapacity);
+            _books = new List<Book>();
+            _prices = new List<decimal>();
+            var supplyDate = new DateTime(2020, 08, 23);
+            _books.Add(new Book(Guid.Empty, "Blue thread", 330,
+                Genre.Crime, "David Linch", supplyDate
+            ));
+            _prices.Add(297);
+            _books.Add(new Book(Guid.Empty, "What's happens?", 1556,
+                Genre.Action, "Poklonskaya Anna", new DateTime(2020, 10, 28)));
+            _prices.Add(1556);
+            _bookStore.BooksOrdering(supplyDate, _books);
+        }
+        
         [Test]
         public void BooksOrdering()
         {
-            var bookStore = new BookStore();
-            var books = new List<Book>();
-            var supplyDate = new DateTime(2020, 08, 23);
-            books.Add(new Book(Guid.Empty, "Blue thread", 330,
-                Genre.Crime, "David Linch", supplyDate
-                ));
-            bookStore.BooksOrdering(supplyDate, books);
-            bookStore.ApplyDiscount(10, Genre.Crime);
-            foreach (var i in bookStore.Books)
+            InitBookStore(2);
+            _bookStore.ApplyDiscount(10, Genre.Crime, new DateTime(2020, 10, 29));
+            for (var i = 0; i < _books.Count; ++i)
             {
-                i.Price.Should().Be(297);
+                _books[i].Price.Should().Be(_prices[i]);
             }
+            _bookStore.BooksOrdering(new DateTime(2020, 10, 20), _books);
         }
 
         [Test]
         public void BuyBookByCustomerTest()
         {
-            var bookStore = new BookStore();
-            var books = new List<Book>();
-            var supplyDate = new DateTime(2020, 08, 23);
-            books.Add(new Book(Guid.Empty, "Blue thread", 330,
-                Genre.Crime, "David Linch", supplyDate
-            ));
-            books.Add(new Book(Guid.Empty, "What's happens?", 1556,
-                Genre.Action, "Poklonskaya Anna", supplyDate));
-            bookStore.BooksOrdering(supplyDate, books);
-            bookStore.BuyBookByCustomer(books.Find(x => x.BookName == "What's happens?"));
-            bookStore.Books.Count.Should().Be(1);
+            InitBookStore(100);
+            _bookStore.BuyBookByCustomer(_books.Find(x => x.BookName == "What's happens?"));
+            _bookStore.Books.Count.Should().Be(1);
         }
+        
+        [Test]
+        public void CheckMoneyTest()
+        {
+           InitBookStore(100);
+            var allModey = 10000.0m;
+            foreach (var book in _bookStore.Books)
+            {
+                allModey -= book.Price * _bookStore.SupplyPercent;
+            }
+            _bookStore.Money.Should().Be(allModey);
+        }
+        
         
     }
 }
