@@ -5,11 +5,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BookStorage.DataBase\BookStorage.DataBase.csproj" />
       <ProjectReference Include="..\BookStorage\BookStorage.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+      <PackageReference Include="MySqlConnector" Version="1.1.0-beta.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Web.config">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

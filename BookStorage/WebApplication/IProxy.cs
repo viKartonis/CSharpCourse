@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookStorage.DataBase;
 
 namespace WebApplication
 {
     public interface IProxy
     {
-        Task<List<BookResponse>> GetBooksFromRemoteServer(int bookCount);
+        Task<List<EntityBook>> GetBooksFromRemoteServer(int bookCount);
     }
 }

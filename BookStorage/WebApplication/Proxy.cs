@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using BookStorage.DataBase;
 
 namespace WebApplication
 {
@@ -15,12 +15,12 @@ namespace WebApplication
             _httpClient = httpClient;
         }
 
-        public async Task<List<BookResponse>> GetBooksFromRemoteServer(int bookCount)
+        public async Task<List<EntityBook>> GetBooksFromRemoteServer(int bookCount)
         {
             var result = await _httpClient.GetAsync(
                 $"https://getbooksrestapi.azurewebsites.net/api/books/{bookCount}");
             var resultString = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<BookResponse>>(resultString);
+            return JsonConvert.DeserializeObject<List<EntityBook>>(resultString);
         }
         
     }
