@@ -11,6 +11,10 @@ namespace WebApplication
 {
     public class Program
     {
+        #warning почисти везде неиспользуемые using'и
+        #warning не увидел ничего с джобами
+        #warning не увидел ничего с RMQ
+        #warning миграция вызывает вопросы
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

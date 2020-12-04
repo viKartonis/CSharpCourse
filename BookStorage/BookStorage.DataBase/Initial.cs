@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookStorage.DataBase
 {
+    #warning как ты получила эту миграцию? EF обычно создаёт папку Migrations, все миграции добавляет туда, а так же создаёт полный snapshot базы
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

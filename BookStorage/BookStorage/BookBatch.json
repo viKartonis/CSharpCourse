@@ -1,30 +1,37 @@
-[{
-  "Name": "Still me",
-  "Coast": "50.0",
-  "Genre": "Drama"
-}, {
-  "Name": "Gone with the wind",
-  "Coast": "100",
-  "Genre": "Action"
-}, {
-  "Name": "Beginning of the infinity",
-  "Coast": "150",
-  "Genre": "Adventure"
-}, {
-  "Name": "The silent patient",
-  "Coast": "200",
-  "Genre": "Crime"
-}, {
-  "Name": "Institute",
-  "Coast": "250",
-  "Genre": "Fairytale"
-}, {
-  "Name": "Dear girls",
-  "Coast": "300",
-  "Genre": "Drama"
-}, {
-  "Name": "Over the top",
-  "Coast": "400",
-  "Genre": "Action"
-}
+[
+  {
+    "Name": "Still me",
+    "Coast": "50.0",
+    "Genre": "Drama"
+  },
+  {
+    "Name": "Gone with the wind",
+    "Coast": "100",
+    "Genre": "Action"
+  },
+  {
+    "Name": "Beginning of the infinity",
+    "Coast": "150",
+    "Genre": "Adventure"
+  },
+  {
+    "Name": "The silent patient",
+    "Coast": "200",
+    "Genre": "Crime"
+  },
+  {
+    "Name": "Institute",
+    "Coast": "250",
+    "Genre": "Fairytale"
+  },
+  {
+    "Name": "Dear girls",
+    "Coast": "300",
+    "Genre": "Drama"
+  },
+  {
+    "Name": "Over the top",
+    "Coast": "400",
+    "Genre": "Action"
+  }
 ]

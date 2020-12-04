@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStorage.DataBase
 {
+    #warning почему  у тебя тут отдельный класс? его быть не должно, нужно использовать Book из BookStorage, она и есть твоя доменная модель
     public class EntityBook
     {
         public int Id {get; set;}

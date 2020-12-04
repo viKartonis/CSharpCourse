@@ -11,6 +11,8 @@ namespace BookStorage.Tests
         private List<Book> _books;
         private List<decimal> _prices;
         
+        #warning вместо вызова этого метода в начале каждого теста, можно на него навестиь атрибут [SetUp]
+        #warning тогда он будет сам вызываться перед каждым тестом
         private void InitBookStore(int storeCapacity)
         {
             _bookStore = new BookStore(10000, 10, 75,
