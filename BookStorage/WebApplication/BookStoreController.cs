@@ -16,9 +16,9 @@ namespace WebApplication
         }
 
         [HttpGet("store/money")]
-        public async Task GetMoneyFromShop()
+        public async Task<decimal> GetMoneyFromShop()
         {
-            await _iDataService.GetMoney();
+            return await _iDataService.GetMoney();
         }
         
         [HttpGet("books")]
