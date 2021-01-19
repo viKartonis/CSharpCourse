@@ -1,26 +1,26 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ContractLibrary;
 using Newtonsoft.Json;
-using WebApplication.DTO;
 
-namespace WebApplication
+namespace Consumer
 {
-    public class Proxy : IProxy
+    public class ExternalAPI : IExternalAPI
     {
         private readonly HttpClient _httpClient;
 
-        public Proxy(HttpClient httpClient)
+        public ExternalAPI(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<List<BookRequest>> GetBooksFromRemoteServer(int bookCount)
+        public async Task<List<Book>> GetBooksFromRemoteServer(int bookCount)
         {
             var result = await _httpClient.GetAsync(
                 $"https://getbooksrestapi.azurewebsites.net/api/books/{bookCount}");
             var resultString = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<BookRequest>>(resultString);
+            return JsonConvert.DeserializeObject<List<Book>>(resultString);
         }
         
     }

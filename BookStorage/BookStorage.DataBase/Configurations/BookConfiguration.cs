@@ -1,7 +1,8 @@
+using BookStorage.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BookStorage.DataBase
+namespace BookStorage.DataBase.Configurations
 {
     public class BookConfiguration : IEntityTypeConfiguration<EntityBook>
     {
@@ -13,6 +14,8 @@ namespace BookStorage.DataBase
 
             builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.Title).IsRequired();
+            builder.Property(x => x.GenreId).IsRequired();
+            builder.Property(x => x.ShopId).IsRequired();
         }
     }
 }

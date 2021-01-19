@@ -11,7 +11,7 @@ namespace BookStorage.DataBase
 
         public BookContext GetContext()
         {
-            return new BookContext(BookContextDbFactoryDesignTime.GetSqlServerOptions(_connectionString));
+            return new BookContext(BookContextDesignTimeFactory.GetSqlServerOptions(_connectionString));
         }
     }
 }

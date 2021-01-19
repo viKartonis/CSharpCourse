@@ -245,7 +245,6 @@ ModelManifest.xml
 # Webstorm config
 .idea
 /FrontEnd/ETR.S7.Workflows.Requests.FrontEnd/ETR.S7.Workflows.Requests.FrontEnd/dist
-Web.config
 
 #difference between canonical screenshot and current if screenshot test fails
 FrontEnd/ETR.S7.Workflows.Requests.FrontEnd/diff.png

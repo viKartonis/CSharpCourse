@@ -3,22 +3,24 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace BookStorage.DataBase
 {
-    public sealed class BookContextDbFactoryDesignTime : IDesignTimeDbContextFactory<BookContext>
+    public sealed class BookContextDesignTimeFactory : IDesignTimeDbContextFactory<BookContext>
     {
         private const string DefaultConnectionString =
-            "server=(local);Database=dbname; User Id=newuser; Password=password;";
+            "User ID=bookshop_user;Password=123;Host=localhost;Port=5432;Database=bookshop;";
+            
         public static DbContextOptions<BookContext> GetSqlServerOptions(string connectionString)
         {
             return new DbContextOptionsBuilder<BookContext>()
-                .UseSqlServer(connectionString ?? DefaultConnectionString, x =>
+                .UseNpgsql(connectionString ?? DefaultConnectionString, x =>
                 {
                     x.MigrationsHistoryTable("__EFMigrationsHistory", BookContext.DefaultSchemaName);
                 })
                 .Options;
-        }
+        } 
+        
         public BookContext CreateDbContext(string[] args)
         {
-            return new BookContext(GetSqlServerOptions(null));
+            return new BookContext(GetSqlServerOptions(DefaultConnectionString));
         }
     }
 }

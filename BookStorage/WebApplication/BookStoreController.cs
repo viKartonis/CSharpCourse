@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookStorage.DataBase;
+using ContractLibrary;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication
@@ -9,27 +9,23 @@ namespace WebApplication
     [Route("api")]
     public class BookStoreController : ControllerBase
     {
-        private IProxy _proxy;      
-        private readonly BookContextDbFactory _dbContextFactory;
-        public BookStoreController(IProxy proxy, BookContextDbFactory dbContextFactory)
+        private readonly IDataService _iDataService;
+        public BookStoreController(IDataService iDataService)
         {
-            _proxy = proxy;
-            _dbContextFactory = dbContextFactory;
+            _iDataService = iDataService;
+        }
+
+        [HttpGet("store/money")]
+        public async Task GetMoneyFromShop()
+        {
+            await _iDataService.GetMoney();
         }
         
-        [HttpGet("book/{count}")]
-        public async Task AddBooks(int count)
+        [HttpGet("books")]
+        public async Task<List<Book>> GetBooks()
         {
-            List<EntityBook> books = _proxy.GetBooksFromRemoteServer(count).Result;
-            using (var context = _dbContextFactory.GetContext())
-            {
-                for (int i = 0; i < count; ++i)
-                {
-                    context.AddBook(books[i]);
-                    await context.SaveChangesAsync();
-                }
-            }
+            return await _iDataService.GetData();
         }
-        
+
     }
 }
