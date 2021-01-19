@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookStorage.DataBase;
 using ContractLibrary;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication.DTO;
 
 namespace WebApplication
 {
@@ -19,6 +21,12 @@ namespace WebApplication
         public async Task<decimal> GetMoneyFromShop()
         {
             return await _iDataService.GetMoney();
+        }
+        
+        [HttpDelete("buyBook")]
+        public async Task DeleteBookFromShop(Book bookRequest)
+        {
+            await _iDataService.DeleteBookFromShop(bookRequest);
         }
         
         [HttpGet("books")]

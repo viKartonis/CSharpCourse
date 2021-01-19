@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookStorage.DataBase;
 using ContractLibrary;
+using WebApplication.DTO;
 
 namespace WebApplication
 {
@@ -13,5 +15,6 @@ namespace WebApplication
         Task<int> CheckNeedToOrder();
         int CountMonthNotSoldBooks(DateTimeOffset dateTime);
         Task<decimal> GetMoney();
+        Task DeleteBookFromShop(Book bookRequest);
     }
 }

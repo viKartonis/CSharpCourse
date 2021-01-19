@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStorage.DataBase;
 using BookStorage.DataBase.Entities;
 using ContractLibrary;
+using WebApplication.DTO;
 
 namespace WebApplication
 {
@@ -91,6 +92,18 @@ namespace WebApplication
         public async Task<decimal> GetMoney()
         {
             return await _dbContextFactory.GetContext().GetMoney(_shopId);
+        }
+
+        public async Task DeleteBookFromShop(Book bookRequest)
+        {
+            var context = _dbContextFactory.GetContext();
+            var entity = await TypesConverter.RequestToEntityBook(bookRequest, context);
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+            
+            var shop = await context.FindAsync<EntityShop>(_shopId);
+            shop.Money += entity.Price;
+            await context.SaveChangesAsync();
         }
 
         public async Task<int> CheckNeedToOrder()
