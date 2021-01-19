@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookStorage.DataBase;
+using BookStorage.DataBase.Entities;
 using ContractLibrary;
 
 namespace WebApplication
@@ -10,12 +11,16 @@ namespace WebApplication
     public class DataService : IDataService
     {
         private readonly BookContextDbFactory _dbContextFactory;
-        private int _shopId;
+        private readonly int _shopId;
         
         public DataService(BookContextDbFactory dbContextFactory, int shopId)
         {
             _dbContextFactory = dbContextFactory;
             _shopId = shopId;
+            using (var context = _dbContextFactory.GetContext())
+            {
+                context.CreateShopIfNotExists(shopId);
+            }
         }
 
         public async Task<List<Book>> GetData(DateTimeOffset now)
@@ -46,14 +51,25 @@ namespace WebApplication
 
         public async Task AddData(List<Book> bookRequest)
         {
-            using (var context = _dbContextFactory.GetContext())
+            await using (var context = _dbContextFactory.GetContext())
             {
+                var shop = await context.Set<EntityShop>().FindAsync(_shopId);
+                var money = shop.Money;
                 foreach (var book in bookRequest)
                 {
-                    var entity = TypesConverter.RequestToEntityBook(book,
+                    var entity = await TypesConverter.RequestToEntityBook(book,
                         context);
+                    money -= book.Price * shop.SupplyPercent/100.0m;
+                    if (money < 0)
+                    {
+                        money += book.Price * shop.SupplyPercent / 100.0m;
+                        break;
+                    }
                     await context.AddBook(entity);
                 }
+                shop.Money = money;
+                await context.SaveChangesAsync();
+                await context.AddBookCurrentNumber(bookRequest.Count, _shopId);
             }
         }
 
@@ -69,7 +85,6 @@ namespace WebApplication
                     count++;
                 }
             }
-
             return count;
         }
 
@@ -78,30 +93,20 @@ namespace WebApplication
             return await _dbContextFactory.GetContext().GetMoney(_shopId);
         }
 
-        public int CheckNeedToOrder(DateTimeOffset now)
+        public async Task<int> CheckNeedToOrder()
         {
             var context = _dbContextFactory.GetContext();
-            var currentBooksCount = context.GetCurrentBooksCount(_shopId);
-            if (currentBooksCount == -1)
-            {
-                context.CreateShop(_shopId);
-                currentBooksCount = context.GetCurrentBooksCount(_shopId);
-            }
-            
-            var storeCapacity = context.GetStoreCapacity(_shopId);
-            var minimumBookCountPercent = context.GetMinimumBookCountPercent(_shopId);
-            var countMonthNotSoldBooksPercent = context.GetCountMonthNotSoldBooksPercent(_shopId);
-
-            if (!(currentBooksCount <= storeCapacity * minimumBookCountPercent/100.0m))
+            var shop = await context.FindAsync<EntityShop>(_shopId);
+            if (!(shop.CurrentBookCount <= shop.StoreCapacity * shop.MinimumBookCountPercent/100.0m))
             {
                 return 0;
             }
             var books = context.GetBooks(_shopId);
             if (books == null || books.Count == 0)
             {
-                return storeCapacity;
+                return shop.StoreCapacity;
             }
-            return CountMonthNotSoldBooks(now) - (int) (storeCapacity * countMonthNotSoldBooksPercent);
+            return shop.CurrentBookCount - (int)(shop.StoreCapacity * shop.MinimumBookCountPercent/100.0m);
         }
     }
 }

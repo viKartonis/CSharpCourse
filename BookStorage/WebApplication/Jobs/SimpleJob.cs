@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Quartz;
 using WebApplication.Rabbit;
 
@@ -17,13 +19,11 @@ namespace WebApplication.Jobs
             _producer = producer;
         }
         
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            var needToOrder = _dataService.CheckNeedToOrder(context.FireTimeUtc);
+            var needToOrder = await _dataService.CheckNeedToOrder();
            
-            _producer.SentReceivedEvent(needToOrder);
-
-            return Task.CompletedTask;
+            await _producer.SentReceivedEvent(needToOrder);
         }
     }
 }

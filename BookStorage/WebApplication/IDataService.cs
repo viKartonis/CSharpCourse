@@ -10,7 +10,7 @@ namespace WebApplication
         Task<List<Book>> GetData(DateTimeOffset now);
         Task<List<Book>> GetData();
         Task AddData(List<Book> bookRequest);
-        int CheckNeedToOrder(DateTimeOffset now);
+        Task<int> CheckNeedToOrder();
         int CountMonthNotSoldBooks(DateTimeOffset dateTime);
         Task<decimal> GetMoney();
     }

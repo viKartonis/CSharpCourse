@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MassTransit;
 using ContractLibrary;
 
@@ -12,11 +13,10 @@ namespace WebApplication.Rabbit
             _dataService = dataService;
         }
         
-        public Task Consume(ConsumeContext<IBookContract> context)
+        public async Task Consume(ConsumeContext<IBookContract> context)
         {
             var books = context.Message;
-            _dataService.AddData(books.Books);
-            return Task.CompletedTask;
+            await _dataService.AddData(books.Books);
         }
     }
 }

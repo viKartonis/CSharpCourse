@@ -35,66 +35,49 @@ namespace BookStorage.DataBase
             await Set<EntityBook>().AddAsync(book);
             await SaveChangesAsync();
         }
-
-        public int GetGenreId(string genreName)
+        public async Task AddBookCurrentNumber(int currentNumber,int shopId)
         {
-            var genre = Set<EntityGenre>().FirstOrDefault(g => g.Name == genreName);
+            var shop = await Set<EntityShop>().FindAsync(shopId);
+            shop.CurrentBookCount += currentNumber;
+            await SaveChangesAsync();
+        }
+        public async Task<int> GetGenreId(string genreName)
+        {
+            var genre = await Set<EntityGenre>().FirstOrDefaultAsync(g => g.Name == genreName);
             if (genre == null)
             {
                 genre = new EntityGenre
                 {
                     Name = genreName
                 };
-                Set<EntityGenre>().Add(genre);
-                SaveChanges();
+                await Set<EntityGenre>().AddAsync(genre);
+                await SaveChangesAsync();
             }
             return genre.GenreId;
         }
 
-        public void CreateShop(int shopId)
-        {
-            Set<EntityShop>().Add(new EntityShop()
-            {
-                Id = shopId,
-                Money = 0,
-                StoreCapacity = 1000,
-                SupplyPercent = 10,
-                CurrentBookCount = 0,
-                MinimumBookCountPercent = 50,
-                CountMonthNotSoldBooksPercent = 5,
-                DiscountId = 1,
-                Discounts = new EntityDiscounts()
-                {
-                    Id = 1,
-                    Value = 20
-                }
-            });
-            SaveChanges();
-        }
-
-        public int GetCurrentBooksCount(int shopId)
-        {
-            return Set<EntityShop>().Find(shopId)?.CurrentBookCount?? -1;
-        }
-        
-        public int GetStoreCapacity(int shopId)
-        {
-            return Set<EntityShop>().Find(shopId)?.StoreCapacity?? -1;
-        }
-        
-        public decimal GetMinimumBookCountPercent(int shopId)
-        {
-            return Set<EntityShop>().Find(shopId)?.MinimumBookCountPercent?? -1;
-        }
-        
-        public decimal GetCountMonthNotSoldBooksPercent(int shopId)
-        {
-            return Set<EntityShop>().Find(shopId)?.CountMonthNotSoldBooksPercent?? -1;
-        }
-
         public async Task<decimal> GetMoney(int shopId)
         {
-            return await Task.FromResult(Set<EntityShop>().Find(shopId)?.Money?? -1);
+            return (await Set<EntityShop>().FindAsync(shopId))?.Money?? -1;
+        }
+
+        public void CreateShopIfNotExists(int shopId)
+        {
+            var shop = Set<EntityShop>().Find(shopId);
+            if (shop == null)
+            {
+                Set<EntityShop>().Add(new EntityShop()
+                {
+                    Id = shopId,
+                    Money = 0,
+                    StoreCapacity = 250,
+                    SupplyPercent = 10,
+                    CurrentBookCount = 0,
+                    MinimumBookCountPercent = 50,
+                    CountMonthNotSoldBooksPercent = 5
+                });
+                SaveChanges();
+            }
         }
     }
 }

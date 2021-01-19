@@ -6,6 +6,8 @@ namespace BookStorage.DataBase.Entities
     {
         public int Id { get; set; }
         public decimal Value { get; set; }
-        public List<EntityShop> Shops { get; set; }
+
+        public virtual EntityShop Shop { get; set; }
+        public int ShopId { get; set; }
     }
 }

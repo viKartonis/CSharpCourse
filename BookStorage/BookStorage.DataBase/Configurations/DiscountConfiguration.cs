@@ -13,10 +13,6 @@ namespace BookStorage.DataBase.Configurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Value).IsRequired();
-            
-            builder.HasMany(x => x.Shops)
-                .WithOne(b => b.Discounts).HasForeignKey(b => b.Id)
-                .IsRequired();
         }
     }
 }
