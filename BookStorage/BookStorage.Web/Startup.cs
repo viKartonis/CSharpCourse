@@ -76,6 +76,14 @@ namespace WebApplication
                 return new DataService(service, 
                     int.Parse(Configuration.GetSection("shopId").Value));
             });
+            
+            services.AddSingleton<IBookService, BookService>(isp =>
+            {
+                var service = isp.GetService<BookContextDbFactory>();
+                return new BookService(service, 
+                    int.Parse(Configuration.GetSection("shopId").Value));
+            });
+            
             services.AddSingleton<IJobFactory, InjectableJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>(isp =>
             {

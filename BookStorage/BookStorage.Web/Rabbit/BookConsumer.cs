@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using BookStorage.Service;
 using MassTransit;
 using ContractLibrary;
 
@@ -6,17 +7,17 @@ namespace WebApplication.Rabbit
 {
     public class BookConsumer : IConsumer<IBookContract>
     {
-        private readonly IDataService _dataService;
+        private readonly IBookService _service;
 
-        public BookConsumer(IDataService dataService)
+        public BookConsumer(IBookService service)
         {
-            _dataService = dataService;
+            _service = service;
         }
         
         public async Task Consume(ConsumeContext<IBookContract> context)
         {
             var books = context.Message;
-            await _dataService.AddData(books.Books);
+            await _service.AddData(books.Books);
         }
     }
 }
