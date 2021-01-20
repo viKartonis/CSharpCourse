@@ -4,26 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BookStorage.DataBase.Migrations
 {
-    public partial class AddBookWithShopId2 : Migration
+    public partial class AddAllShop : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "bookshop");
-
-            migrationBuilder.CreateTable(
-                name: "EntityDiscounts",
-                schema: "bookshop",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Value = table.Column<decimal>(type: "numeric", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EntityDiscounts", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "EntityGenre",
@@ -44,10 +30,10 @@ namespace BookStorage.DataBase.Migrations
                 schema: "bookshop",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    StoreCapacity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1000),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StoreCapacity = table.Column<int>(type: "integer", nullable: false, defaultValue: 250),
                     CurrentBookCount = table.Column<int>(type: "integer", nullable: false),
-                    DiscountId = table.Column<int>(type: "integer", nullable: false),
                     Money = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 10000m),
                     MinimumBookCountPercent = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 5m),
                     CountMonthNotSoldBooksPercent = table.Column<decimal>(type: "numeric", nullable: false),
@@ -56,13 +42,6 @@ namespace BookStorage.DataBase.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EntityShop", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EntityShop_EntityDiscounts_Id",
-                        column: x => x.Id,
-                        principalSchema: "bookshop",
-                        principalTable: "EntityDiscounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,6 +77,28 @@ namespace BookStorage.DataBase.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EntityDiscounts",
+                schema: "bookshop",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Value = table.Column<decimal>(type: "numeric", nullable: false),
+                    ShopId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EntityDiscounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EntityDiscounts_EntityShop_ShopId",
+                        column: x => x.ShopId,
+                        principalSchema: "bookshop",
+                        principalTable: "EntityShop",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_EntityBook_GenreId",
                 schema: "bookshop",
@@ -109,6 +110,12 @@ namespace BookStorage.DataBase.Migrations
                 schema: "bookshop",
                 table: "EntityBook",
                 column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntityDiscounts_ShopId",
+                schema: "bookshop",
+                table: "EntityDiscounts",
+                column: "ShopId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -118,15 +125,15 @@ namespace BookStorage.DataBase.Migrations
                 schema: "bookshop");
 
             migrationBuilder.DropTable(
+                name: "EntityDiscounts",
+                schema: "bookshop");
+
+            migrationBuilder.DropTable(
                 name: "EntityGenre",
                 schema: "bookshop");
 
             migrationBuilder.DropTable(
                 name: "EntityShop",
-                schema: "bookshop");
-
-            migrationBuilder.DropTable(
-                name: "EntityDiscounts",
                 schema: "bookshop");
         }
     }

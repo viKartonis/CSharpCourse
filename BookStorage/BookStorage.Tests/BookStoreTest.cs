@@ -1,65 +1,55 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using BookStorage.DataBase;
+using BookStorage.DataBase.Entities;
+using BookStorage.Service;
+using ContractLibrary;
 using FluentAssertions;
 using NUnit.Framework;
+using WebApplication;
+using WebApplication.DTO;
 
 namespace BookStorage.Tests
 {
     public class BookStoreTest
     {
-        private BookStore _bookStore; 
-        private List<Book> _books;
-        private List<decimal> _prices;
-        
-        private void InitBookStore(int storeCapacity)
-        {
-            _bookStore = new BookStore(10000, 10, 75,
-                10, storeCapacity);
-            _books = new List<Book>();
-            _prices = new List<decimal>();
-            var supplyDate = new DateTime(2020, 08, 23);
-            _books.Add(new Book(Guid.Empty, "Blue thread", 330,
-                Genre.Crime, "David Linch", supplyDate
-            ));
-            _prices.Add(297);
-            _books.Add(new Book(Guid.Empty, "What's happens?", 1556,
-                Genre.Action, "Poklonskaya Anna", new DateTime(2020, 10, 28)));
-            _prices.Add(1556);
-            _bookStore.BooksOrdering(supplyDate, _books);
-        }
-        
-        [Test]
-        public void BooksOrdering()
-        {
-            InitBookStore(2);
-            _bookStore.ApplyDiscount(10, Genre.Crime, new DateTime(2020, 10, 29));
-            for (var i = 0; i < _books.Count; ++i)
-            {
-                _books[i].Price.Should().Be(_prices[i]);
-            }
-            _bookStore.BooksOrdering(new DateTime(2020, 10, 20), _books);
-        }
+        public const string DefaultSchemaName = "bookshop";
+        private DataService _service;
+        private readonly BookContext _context;
+        private readonly List<Book> _books;
+        private readonly decimal _money;
 
-        [Test]
-        public void BuyBookByCustomerTest()
+        [SetUp]
+        public void InitService()
         {
-            InitBookStore(100);
-            _bookStore.BuyBookByCustomer(_books.Find(x => x.BookName == "What's happens?"));
-            _bookStore.Books.Count.Should().Be(1);
-        }
-        
-        [Test]
-        public void CheckMoneyTest()
-        {
-           InitBookStore(100);
-            var allModey = 10000.0m;
-            foreach (var book in _bookStore.Books)
+            for (var i = 0; i < 3; ++i)
             {
-                allModey -= book.Price * _bookStore.SupplyPercent;
+                var book = new EntityBook()
+                {
+                    DateOfDelivery = new DateTime(2020, 08, 23),
+                    Title = "Book" + i,
+                    GenreId = i,
+                    Id = i,
+                    IsNew = true,
+                    ShopId = i,
+                    Price = 100 * i
+                };
+                _books.Add(TypesConverter.EntityToResponse(book));
             }
-            _bookStore.Money.Should().Be(allModey);
+            AddData(_books);
         }
         
+        [Test]
+        public void GetData()
+        {
+            var list =  _service.GetData().Result;
+            _books.Count.Should().Be(list.Count);
+        }
+        public void AddData(List<Book> bookRequest)
+        {
+            _service.AddData(bookRequest);
+        }
         
     }
 }

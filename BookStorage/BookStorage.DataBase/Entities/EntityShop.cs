@@ -8,8 +8,7 @@ namespace BookStorage.DataBase.Entities
         public List<EntityBook> Books { get; set; }
         public int StoreCapacity { get; set; }
         public int CurrentBookCount { get; set; }
-        public virtual EntityDiscounts Discounts { get; set; }
-        public int DiscountId { get; set; }
+        public List<EntityDiscounts> Discounts { get; set; }
         public decimal Money { get; set; }
         public decimal MinimumBookCountPercent { get; set; }
         public decimal CountMonthNotSoldBooksPercent { get; set; }

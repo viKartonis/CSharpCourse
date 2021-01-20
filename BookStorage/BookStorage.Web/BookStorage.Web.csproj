@@ -3,10 +3,12 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <RootNamespace>WebApplication</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BookStorage.DataBase\BookStorage.DataBase.csproj" />
+      <ProjectReference Include="..\BookStorage.Service\BookStorage.Service.csproj" />
       <ProjectReference Include="..\BookStorage\BookStorage.csproj" />
     </ItemGroup>
 

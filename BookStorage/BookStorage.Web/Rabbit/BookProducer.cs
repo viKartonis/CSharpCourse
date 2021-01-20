@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ContractLibrary;
 using MassTransit;
 using Microsoft.Extensions.Configuration;

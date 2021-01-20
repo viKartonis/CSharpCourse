@@ -62,10 +62,15 @@ namespace BookStorage.DataBase.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
+                    b.Property<int>("ShopId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Value")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("EntityDiscounts", "bookshop");
                 });
@@ -90,15 +95,13 @@ namespace BookStorage.DataBase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<decimal>("CountMonthNotSoldBooksPercent")
                         .HasColumnType("numeric");
 
                     b.Property<int>("CurrentBookCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DiscountId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("MinimumBookCountPercent")
@@ -114,7 +117,7 @@ namespace BookStorage.DataBase.Migrations
                     b.Property<int>("StoreCapacity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(1000);
+                        .HasDefaultValue(250);
 
                     b.Property<decimal>("SupplyPercent")
                         .ValueGeneratedOnAdd()
@@ -145,20 +148,15 @@ namespace BookStorage.DataBase.Migrations
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("BookStorage.DataBase.Entities.EntityShop", b =>
+            modelBuilder.Entity("BookStorage.DataBase.Entities.EntityDiscounts", b =>
                 {
-                    b.HasOne("BookStorage.DataBase.Entities.EntityDiscounts", "Discounts")
-                        .WithMany("Shops")
-                        .HasForeignKey("Id")
+                    b.HasOne("BookStorage.DataBase.Entities.EntityShop", "Shop")
+                        .WithMany("Discounts")
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Discounts");
-                });
-
-            modelBuilder.Entity("BookStorage.DataBase.Entities.EntityDiscounts", b =>
-                {
-                    b.Navigation("Shops");
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("BookStorage.DataBase.Entities.EntityGenre", b =>
@@ -169,6 +167,8 @@ namespace BookStorage.DataBase.Migrations
             modelBuilder.Entity("BookStorage.DataBase.Entities.EntityShop", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("Discounts");
                 });
 #pragma warning restore 612, 618
         }

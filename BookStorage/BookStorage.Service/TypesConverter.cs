@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using BookStorage.DataBase;
 using BookStorage.DataBase.Entities;
 using ContractLibrary;
@@ -19,10 +20,10 @@ namespace WebApplication
             };
         }
 
-        public static EntityBook RequestToEntityBook(Book book,
+        public static async Task<EntityBook> RequestToEntityBook(Book book,
             BookContext context)
         {
-            var genreId = context.GetGenreId(book.Genre);
+            var genreId = await context.GetGenreId(book.Genre);
             return new EntityBook()
             {
                 Price = book.Price,

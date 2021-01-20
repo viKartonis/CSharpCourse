@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
@@ -35,7 +37,7 @@ namespace WebApplication.Jobs
         {
             var trigger = TriggerBuilder.Create()
                 .WithIdentity(nameof(SimpleJob))
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(60).RepeatForever())
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(360).RepeatForever())
                 .Build();
             var job = JobBuilder.Create<SimpleJob>().WithIdentity(nameof(SimpleJob)).Build();
             await Scheduler.ScheduleJob(job, trigger);

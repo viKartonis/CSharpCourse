@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Net.Http;
 using BookStorage.DataBase;
+using BookStorage.Service;
 using MassTransit;
 using MassTransit.AspNetCoreIntegration;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,6 @@ namespace WebApplication
         {
             services.AddControllers();
             services.AddSingleton<HttpClient>();
-            services.AddSingleton<IProxy, Proxy>();
             services.AddSingleton(isp 
                 => new BookContextDbFactory( Configuration.GetConnectionString("DefaultConnection")));
             
@@ -76,6 +76,14 @@ namespace WebApplication
                 return new DataService(service, 
                     int.Parse(Configuration.GetSection("shopId").Value));
             });
+            
+            services.AddSingleton<IBookService, BookService>(isp =>
+            {
+                var service = isp.GetService<BookContextDbFactory>();
+                return new BookService(service, 
+                    int.Parse(Configuration.GetSection("shopId").Value));
+            });
+            
             services.AddSingleton<IJobFactory, InjectableJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>(isp =>
             {
