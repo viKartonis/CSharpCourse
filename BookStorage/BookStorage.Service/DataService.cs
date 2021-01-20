@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using BookStorage.DataBase;
 using BookStorage.DataBase.Entities;
-using WebApplication;
 using WebApplication.DTO;
 
 namespace BookStorage.Service
@@ -33,7 +32,10 @@ namespace BookStorage.Service
             var books = await context.GetBooks();
             foreach (var book in books)
             {
-                book.Price *= (100 - discount.Value) / 100.0m;
+                if (book.GenreId == discount.GenreId)
+                {
+                    book.Price *= (100 - discount.Value) / 100.0m;
+                }
             }
             await context.SaveChangesAsync();
         }
@@ -55,7 +57,10 @@ namespace BookStorage.Service
             var books = await context.GetBooks();
             foreach (var book in books)
             {
-                book.Price /= (100 - discount.Value) / 100.0m;
+                if (book.GenreId == discount.GenreId)
+                {
+                    book.Price *= (100 - discount.Value) / 100.0m;
+                }
             }
             await context.SaveChangesAsync();
         }

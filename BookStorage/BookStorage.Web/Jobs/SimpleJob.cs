@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookStorage.Service;
 using Quartz;
 using WebApplication.Rabbit;
 

@@ -9,5 +9,7 @@ namespace BookStorage.DataBase.Entities
 
         public virtual EntityShop Shop { get; set; }
         public int ShopId { get; set; }
+        public virtual EntityGenre Genre { get; set; }
+        public int GenreId { get; set; }
     }
 }

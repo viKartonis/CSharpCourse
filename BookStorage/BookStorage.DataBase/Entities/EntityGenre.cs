@@ -7,5 +7,7 @@ namespace BookStorage.DataBase.Entities
         public int GenreId { get; set; }
         public string Name { get; set; }
         public List<EntityBook> Books { get; set; }
+        public List<EntityDiscounts> Discounts { get; set; }
+
     }
 }

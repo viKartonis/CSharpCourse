@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using ContractLibrary;
 using WebApplication.DTO;
 
-namespace WebApplication
+namespace BookStorage.Service
 {
     public interface IDataService
     {

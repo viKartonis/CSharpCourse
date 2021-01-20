@@ -17,6 +17,9 @@ namespace BookStorage.DataBase.Configurations
             builder.HasMany(x => x.Books)
                 .WithOne(b => b.Genre).HasForeignKey(b => b.GenreId)
                 .IsRequired();
+            builder.HasMany(x => x.Discounts)
+                .WithOne(b => b.Genre).HasForeignKey(b => b.GenreId)
+                .IsRequired();
         }
     }
 }
