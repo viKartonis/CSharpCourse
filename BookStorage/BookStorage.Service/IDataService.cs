@@ -15,6 +15,8 @@ namespace WebApplication
         Task<int> CheckNeedToOrder();
         int CountMonthNotSoldBooks(DateTimeOffset dateTime);
         Task<decimal> GetMoney();
-        Task DeleteBookFromShop(Book bookRequest);
+        Task DeleteBookFromShop(int bookId);
+        Task UpdateBooksPrices(DiscountId discountId);
+        Task AddDiscount(DiscountRequest discount);
     }
 }

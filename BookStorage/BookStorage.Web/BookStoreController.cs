@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookStorage.DataBase;
 using ContractLibrary;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.DTO;
@@ -23,10 +22,22 @@ namespace WebApplication
             return await _iDataService.GetMoney();
         }
         
-        [HttpDelete("buyBook")]
-        public async Task DeleteBookFromShop(Book bookRequest)
+        [HttpDelete("buyBook/{bookId}")]
+        public async Task DeleteBookFromShop(int bookId)
         {
-            await _iDataService.DeleteBookFromShop(bookRequest);
+            await _iDataService.DeleteBookFromShop(bookId);
+        }
+        
+        [HttpPut("discount/apply")]
+        public async Task UpdateBooksPrices(DiscountId discountId)
+        {
+            await _iDataService.UpdateBooksPrices(discountId);
+        }
+        
+        [HttpPost("discount/add")]
+        public async Task AddDiscount([FromBody]DiscountRequest discountEntity)
+        {
+            await _iDataService.AddDiscount(discountEntity);
         }
         
         [HttpGet("books")]

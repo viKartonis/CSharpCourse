@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Net.Http;
 using BookStorage.DataBase;
+using BookStorage.Service;
 using MassTransit;
 using MassTransit.AspNetCoreIntegration;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,6 @@ namespace WebApplication
         {
             services.AddControllers();
             services.AddSingleton<HttpClient>();
-            services.AddSingleton<IProxy, Proxy>();
             services.AddSingleton(isp 
                 => new BookContextDbFactory( Configuration.GetConnectionString("DefaultConnection")));
             

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using BookStorage.DataBase;
 using BookStorage.DataBase.Entities;
 using ContractLibrary;
+using WebApplication;
 using WebApplication.DTO;
 
-namespace WebApplication
+namespace BookStorage.Service
 {
     public class DataService : IDataService
     {
@@ -94,15 +95,38 @@ namespace WebApplication
             return await _dbContextFactory.GetContext().GetMoney(_shopId);
         }
 
-        public async Task DeleteBookFromShop(Book bookRequest)
+        public async Task DeleteBookFromShop(int bookId)
         {
             var context = _dbContextFactory.GetContext();
-            var entity = await TypesConverter.RequestToEntityBook(bookRequest, context);
+            var entity = await context.Set<EntityBook>().FindAsync(bookId);
             context.Remove(entity);
             await context.SaveChangesAsync();
             
             var shop = await context.FindAsync<EntityShop>(_shopId);
             shop.Money += entity.Price;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateBooksPrices(DiscountId discountId)
+        {
+            var context = _dbContextFactory.GetContext();
+            var discount = await context.Set<EntityDiscounts>().FindAsync(discountId.Id);
+            var books = await context.GetBooks();
+            foreach (var book in books)
+            {
+                book.Price *= (100 - discount.Value) / 100.0m;
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AddDiscount(DiscountRequest discount)
+        {
+            var context = _dbContextFactory.GetContext();
+            await context.Set<EntityDiscounts>().AddAsync(new EntityDiscounts()
+            {
+                Value = discount.Value,
+                ShopId = _shopId
+            });
             await context.SaveChangesAsync();
         }
 

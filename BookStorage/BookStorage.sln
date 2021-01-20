@@ -2,9 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage.Tests", "BookStorage.Tests\BookStorage.Tests.csproj", "{0D627762-6773-41EE-A016-79C865899A07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage.Web", "BookStorage.Web\BookStorage.Web.csproj", "{C9C9BD3A-9328-4C53-B6D2-0629D54B8AF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage.DataBase", "BookStorage.DataBase\BookStorage.DataBase.csproj", "{EDB1FAF0-1F42-414E-A545-63B221ECC2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStorage.Service", "BookStorage.Service\BookStorage.Service.csproj", "{28A81D73-6006-465F-8FFF-355A6E442BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,9 @@ Global
 		{EDB1FAF0-1F42-414E-A545-63B221ECC2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB1FAF0-1F42-414E-A545-63B221ECC2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB1FAF0-1F42-414E-A545-63B221ECC2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A81D73-6006-465F-8FFF-355A6E442BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A81D73-6006-465F-8FFF-355A6E442BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A81D73-6006-465F-8FFF-355A6E442BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A81D73-6006-465F-8FFF-355A6E442BC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

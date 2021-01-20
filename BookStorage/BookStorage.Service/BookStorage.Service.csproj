@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BookStorage.DataBase\BookStorage.DataBase.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="ContractLibrary">
+            <HintPath>../../ContractLibrary/ContractLibrary/bin/Debug/netcoreapp3.1/ContractLibrary.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>
